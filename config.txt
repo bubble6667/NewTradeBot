@@ -1,0 +1,1 @@
+{"bid_size": 40, "entry_price": 4.59, "product_id": "ETHW/USD", "preferred_side": "sell", "action": "now", "auto_trade": 1, "stop_loss": 0.002, "api_public_key": "", "api_private_key": "", "api_path": "https://api.kraken.com", "adj_trigger": 0, "adj_trigger_value": 0}
