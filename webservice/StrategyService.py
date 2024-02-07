@@ -14,7 +14,7 @@ import _thread
 import websocket
 
 strategy_classes = set()
-strategy_limit = 14
+strategy_limit = 8
 app = Flask(__name__)
 config = {}
 ticker = ''
@@ -38,6 +38,7 @@ class Strategy:
         self.exit_price = 0
         self.minimum_margin = 1.05
         self.reentry_price = 0
+        self.side_modifier = 1.2
 
     def new_message(self, message):
         message = message.replace('[', "")
@@ -51,13 +52,10 @@ class Strategy:
 
     def get_side(self):
         if self.in_position:
-            if self.last_mark > (self.entry_price * 2):
-                self.side_value = 15
-            elif self.last_mark > (self.entry_price * 1.4):
-                self.side_value = 9
-            elif self.last_mark > (self.entry_price * 1.2):
-                self.side_value = 6
-        if self.last_mark * self.minimum_margin < self.entry_price:
+            if self.last_mark > (self.entry_price * self.side_modifier):
+                self.side_value += 3
+                self.side_modifier += .2
+        if self.last_mark < self.entry_price * (2 - self.minimum_margin):
             self.minimum_margin += .05
         if self.old_mark == 0:
             self.old_mark = self.last_mark
@@ -204,7 +202,9 @@ def load():
 @app.route("/show")
 def show():
     for objects in strategy_classes:
-        print(objects.pairing + ' Position = ' + str(objects.in_position) + " entry: " + str(objects.entry_price))
+        print(objects.pairing + ' Position = ' + str(objects.in_position) + " entry: " + str(objects.entry_price) +
+              " trailing percentage: " + str(objects.side_value) + " minimum margin: " + str(objects.minimum_margin) +
+              " current price: " + str(objects.last_mark) + " side: " + str(objects.side))
     return '''<h1>All pairs shown in terminal</h1>'''
 
 
