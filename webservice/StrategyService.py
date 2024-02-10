@@ -14,7 +14,7 @@ import _thread
 import websocket
 
 strategy_classes = set()
-strategy_limit = 8
+strategy_limit = 6
 app = Flask(__name__)
 config = {}
 ticker = ''
@@ -204,7 +204,8 @@ def show():
     for objects in strategy_classes:
         print(objects.pairing + ' Position = ' + str(objects.in_position) + " entry: " + str(objects.entry_price) +
               " trailing percentage: " + str(objects.side_value) + " minimum margin: " + str(objects.minimum_margin) +
-              " current price: " + str(objects.last_mark) + " side: " + str(objects.side))
+              " current price: " + str(objects.last_mark) + " side: " + str(objects.side) + " reentry price: " +
+              str(objects.reentry_price) + " quantity: " + str(objects.quantity))
     return '''<h1>All pairs shown in terminal</h1>'''
 
 
