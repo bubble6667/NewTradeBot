@@ -137,12 +137,12 @@ class Strategy:
                     }, self.api_public_key, self.api_private_key)
                     print(str(st) + ' selling ' + self.pairing + " @ " + str(self.last_mark) + " quantity " + str(self.quantity))
                     print(resp)
-                    if self.exit_price > (self.entry_price * 1.07):
+                    if self.exit_price > (self.entry_price * 1.1):
                         print('profit')
+                        self.reentry_price = (self.entry_price + self.exit_price + (self.exit_price * (self.side_value / 100))) / 2
                         self.side_value = 1
                         self.minimum_margin = 1.05
-                        self.reentry_price = (self.entry_price + self.exit_price) / 2
-                    elif self.exit_price > (self.entry_price * 1.05):
+                    elif self.exit_price >= (self.entry_price * 1.05):
                         print('less profit')
                         strategy_classes.remove(self)
 
@@ -206,7 +206,7 @@ def show():
               " trailing percentage: " + str(objects.side_value) + " minimum margin: " + str(objects.minimum_margin) +
               " current price: " + str(objects.last_mark) + " side: " + str(objects.side) + " reentry price: " +
               str(objects.reentry_price) + " quantity: " + str(objects.quantity))
-    return '''<h1>All pairs shown in terminal</h1>'''
+    return '''<h1>All pairs shown in terminal /h1>'''
 
 
 @app.route("/remove")
@@ -218,7 +218,12 @@ def remove():
             print('removing ' + objects.pairing)
     for objects in strategy_classes:
         print(objects.pairing + ' Position = ' + str(objects.in_position))
-    return '''<h1Removed pairing/h1>'''
+    return '''<h1Removed pairing /h1>'''
+
+
+@app.route("/", methods=['GET'])
+def home():
+    return render_template("home.html")
 
 
 @app.route("/buy", methods=['POST'])
@@ -239,7 +244,7 @@ def buy():
         strategy_classes.add(new_strategy)
         for objects in strategy_classes:
             print(objects.pairing + ' Position = ' + str(objects.in_position))
-    return '''<h1>Adding trading strategy for {}</h1>'''.format(ticker)
+    return '''<h1>Adding trading strategy for {} /h1>'''.format(ticker)
 
 
 def ws_message(ws, message):
