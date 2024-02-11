@@ -180,7 +180,7 @@ def raise_limit():
     global strategy_limit
     strategy_limit += 1
     print(strategy_limit)
-    return '''<h1>Strategy limit increased /h1>'''
+    return '''<h1>Strategy limit increased </h1>'''
 
 
 @app.route("/decrease_limit")
@@ -188,7 +188,7 @@ def decrease_limit():
     global strategy_limit
     strategy_limit -= 1
     print(strategy_limit)
-    return '''<h1>Strategy limit decreased /h1>'''
+    return '''<h1>Strategy limit decreased </h1>'''
 
 
 @app.route("/load")
@@ -206,7 +206,7 @@ def show():
               " trailing percentage: " + str(objects.side_value) + " minimum margin: " + str(objects.minimum_margin) +
               " current price: " + str(objects.last_mark) + " side: " + str(objects.side) + " reentry price: " +
               str(objects.reentry_price) + " quantity: " + str(objects.quantity))
-    return '''<h1>All pairs shown in terminal /h1>'''
+    return '''<h1>All pairs shown in terminal </h1>'''
 
 
 @app.route("/remove")
@@ -218,7 +218,7 @@ def remove():
             print('removing ' + objects.pairing)
     for objects in strategy_classes:
         print(objects.pairing + ' Position = ' + str(objects.in_position))
-    return '''<h1Removed pairing /h1>'''
+    return '''<h1Removed pairing </h1>'''
 
 
 @app.route("/", methods=['GET'])
@@ -244,7 +244,7 @@ def buy():
         strategy_classes.add(new_strategy)
         for objects in strategy_classes:
             print(objects.pairing + ' Position = ' + str(objects.in_position))
-    return '''<h1>Adding trading strategy for {} /h1>'''.format(ticker)
+    return '''<h1>Adding trading strategy for {} </h1>'''.format(ticker)
 
 
 def ws_message(ws, message):
