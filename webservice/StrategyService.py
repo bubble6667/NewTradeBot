@@ -14,7 +14,7 @@ import _thread
 import websocket
 
 strategy_classes = set()
-strategy_limit = 6
+strategy_limit = 7
 app = Flask(__name__)
 config = {}
 ticker = ''
@@ -36,7 +36,7 @@ class Strategy:
         self.api_private_key = api_private_key
         self.entry_price = 0
         self.exit_price = 0
-        self.minimum_margin = 1.05
+        self.minimum_margin = 1.04
         self.reentry_price = 0
         self.side_modifier = 1.2
 
@@ -56,7 +56,7 @@ class Strategy:
                 self.side_value += 3
                 self.side_modifier += .2
         if self.last_mark < self.entry_price * (2 - self.minimum_margin):
-            self.minimum_margin += .05
+            self.minimum_margin += .04
         if self.old_mark == 0:
             self.old_mark = self.last_mark
         elif self.last_mark > self.old_mark:
@@ -91,7 +91,7 @@ class Strategy:
                     if not self.in_position:
                         ts = time.time()
                         st = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
-                        self.side_value = 3
+                        self.side_value = 2
                         self.in_position = True
                         self.entry_price = self.last_mark
                         resp = kraken_request('/0/private/AddOrder', {
@@ -108,7 +108,7 @@ class Strategy:
                 if not self.in_position:
                     ts = time.time()
                     st = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
-                    self.side_value = 3
+                    self.side_value = 2
                     self.in_position = True
                     self.entry_price = self.last_mark
                     resp = kraken_request('/0/private/AddOrder', {
@@ -137,12 +137,15 @@ class Strategy:
                     }, self.api_public_key, self.api_private_key)
                     print(str(st) + ' selling ' + self.pairing + " @ " + str(self.last_mark) + " quantity " + str(self.quantity))
                     print(resp)
-                    if self.exit_price > (self.entry_price * 1.1):
+                    if self.exit_price > (self.entry_price * 1.08):
                         print('profit')
                         self.reentry_price = (self.entry_price + self.exit_price + (self.exit_price * (self.side_value / 100))) / 2
                         self.side_value = 1
-                        self.minimum_margin = 1.05
-                    elif self.exit_price >= (self.entry_price * 1.05):
+                        self.minimum_margin = 1.04
+                        if self.exit_price > (self.entry_price * 1.12):
+                            self.quantity = self.quantity * 1.01
+                            print('quantity moded')
+                    elif self.exit_price >= (self.entry_price * 1.04):
                         print('less profit')
                         strategy_classes.remove(self)
 
