@@ -143,7 +143,7 @@ class Strategy:
                         self.side_value = 1
                         self.minimum_margin = 1.04
                         if self.exit_price > (self.entry_price * 1.12):
-                            self.quantity = self.quantity * 1.01
+                            self.quantity = round(self.quantity * 1.01, 5)
                             print('quantity moded')
                     elif self.exit_price >= (self.entry_price * 1.04):
                         print('less profit')
