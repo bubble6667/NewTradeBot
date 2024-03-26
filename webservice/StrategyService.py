@@ -91,7 +91,7 @@ class Strategy:
                     if not self.in_position:
                         ts = time.time()
                         st = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
-                        self.side_value = 2
+                        self.side_value = 3
                         self.in_position = True
                         self.entry_price = self.last_mark
                         resp = kraken_request('/0/private/AddOrder', {
@@ -108,7 +108,7 @@ class Strategy:
                 if not self.in_position:
                     ts = time.time()
                     st = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
-                    self.side_value = 2
+                    self.side_value = 3
                     self.in_position = True
                     self.entry_price = self.last_mark
                     resp = kraken_request('/0/private/AddOrder', {
@@ -200,6 +200,96 @@ def load():
     ticker = request.args.get('ticker')
     value = request.args.get('value')
     return render_template("index1.html")
+
+
+@app.route("/load_trades")
+def load_trades():
+    global config
+    api_public_key = config['api_public_key']
+    api_private_key = config['api_private_key']
+    with open('trades.txt', 'r') as f:
+        stringt = f.read()
+        list_str = stringt.splitlines()
+        f.close()
+        for strings in list_str:
+            try:
+                json_dict = json.loads(strings)
+                new_strategy = Strategy(json_dict['pairing'], json_dict['quantity'], api_public_key, api_private_key)
+                new_strategy.side_value = json_dict['side_value']
+                new_strategy.entry_price = json_dict['entry_price']
+                new_strategy.exit_price = json_dict['exit_price']
+                new_strategy.side_modifier = json_dict['side_modifier']
+                new_strategy.reentry_price = json_dict['reentry_price']
+                new_strategy.minimum_margin = json_dict['minimum_margin']
+                if json_dict['in_position']:
+                    new_strategy.in_position = True
+                if not json_dict['in_position']:
+                    new_strategy.in_position = False
+                strategy_classes.add(new_strategy)
+            except ValueError:
+                print(ValueError)
+    return '''<h1>Trades loaded</h1>'''
+
+
+@app.route("/save_trades")
+def save_trades():
+    new_string = ""
+    x = 0
+    for objects in strategy_classes:
+        if x == 0:
+            new_string += "{"
+            new_string += '"' + "pairing" + '"' + ": "
+            new_string += '"' + objects.pairing + '", '
+            new_string += '"' + "quantity" + '"' + ": "
+            new_string += str(objects.quantity) + ", "
+            new_string += '"' + "side_value" + '"' + ": "
+            new_string += str(objects.side_value) + ", "
+            new_string += '"' + "entry_price" + '"' + ": "
+            new_string += str(objects.entry_price) + ", "
+            new_string += '"' + "exit_price" + '"' + ": "
+            new_string += str(objects.exit_price) + ", "
+            new_string += '"' + "minimum_margin" + '"' + ": "
+            new_string += str(objects.minimum_margin) + ", "
+            new_string += '"' + "reentry_price" + '"' + ": "
+            new_string += str(objects.reentry_price) + ", "
+            new_string += '"' + "side_modifier" + '"' + ": "
+            new_string += str(objects.side_modifier) + ", "
+            new_string += '"' + "in_position" + '"' + ": "
+            if objects.in_position:
+                new_string += 'true'
+            if not objects.in_position:
+                new_string += 'false'
+            new_string += "}"
+            x += 1
+        else:
+            new_string += "\n"
+            new_string += "{"
+            new_string += '"' + "pairing" + '"' + ": "
+            new_string += '"' + objects.pairing + '", '
+            new_string += '"' + "quantity" + '"' + ": "
+            new_string += str(objects.quantity) + ", "
+            new_string += '"' + "side_value" + '"' + ": "
+            new_string += str(objects.side_value) + ", "
+            new_string += '"' + "entry_price" + '"' + ": "
+            new_string += str(objects.entry_price) + ", "
+            new_string += '"' + "exit_price" + '"' + ": "
+            new_string += str(objects.exit_price) + ", "
+            new_string += '"' + "minimum_margin" + '"' + ": "
+            new_string += str(objects.minimum_margin) + ", "
+            new_string += '"' + "reentry_price" + '"' + ": "
+            new_string += str(objects.reentry_price) + ", "
+            new_string += '"' + "side_modifier" + '"' + ": "
+            new_string += str(objects.side_modifier) + ", "
+            new_string += '"' + "in_position" + '"' + ": "
+            if objects.in_position:
+                new_string += 'true'
+            if not objects.in_position:
+                new_string += 'false'
+            new_string += "}"
+    with open('trades.txt', 'w') as f:
+        f.write(new_string)
+        f.close()
+    return '''<h1>Trades saved</h1>'''
 
 
 @app.route("/show")
