@@ -14,7 +14,7 @@ import _thread
 import websocket
 
 strategy_classes = set()
-strategy_limit = 7
+strategy_limit = 26
 app = Flask(__name__)
 config = {}
 ticker = ''
@@ -178,6 +178,15 @@ def kraken_request(uri_path, data, api_key, api_sec):
     return req
 
 
+@app.route("/raise_size")
+def raise_size():
+    global config
+    quantity_mod = config['quantity_mod']
+    quantity_mod += .1
+    print(quantity_mod)
+    return '''<h1>Size increased by 10%</h1>'''
+
+
 @app.route("/raise_limit")
 def raise_limit():
     global strategy_limit
@@ -211,9 +220,13 @@ def load_trades():
         stringt = f.read()
         list_str = stringt.splitlines()
         f.close()
+        print(list_str)
         for strings in list_str:
+            print(strings)
+            print(type(strings))
             try:
                 json_dict = json.loads(strings)
+                print(json_dict['pairing'])
                 new_strategy = Strategy(json_dict['pairing'], json_dict['quantity'], api_public_key, api_private_key)
                 new_strategy.side_value = json_dict['side_value']
                 new_strategy.entry_price = json_dict['entry_price']
@@ -225,7 +238,9 @@ def load_trades():
                     new_strategy.in_position = True
                 if not json_dict['in_position']:
                     new_strategy.in_position = False
+
                 strategy_classes.add(new_strategy)
+
             except ValueError:
                 print(ValueError)
     return '''<h1>Trades loaded</h1>'''
@@ -287,8 +302,10 @@ def save_trades():
                 new_string += 'false'
             new_string += "}"
     with open('trades.txt', 'w') as f:
+        print(new_string)
         f.write(new_string)
         f.close()
+
     return '''<h1>Trades saved</h1>'''
 
 
@@ -323,6 +340,8 @@ def home():
 def buy():
     global config
     global strategy_limit
+    global ticker, value
+    quantity_mod = config['quantity_mod']
     api_public_key = config['api_public_key']
     api_private_key = config['api_private_key']
     counter = 0
@@ -333,7 +352,7 @@ def buy():
             counter += 1
             break  # if pairing already in strategy set, break loop and increment counter(no duplicate pairing)
     if counter == 0 and strategy_counter < strategy_limit:
-        new_strategy = Strategy(ticker, value, api_public_key, api_private_key)
+        new_strategy = Strategy(ticker, (value * quantity_mod), api_public_key, api_private_key)
         strategy_classes.add(new_strategy)
         for objects in strategy_classes:
             print(objects.pairing + ' Position = ' + str(objects.in_position))
