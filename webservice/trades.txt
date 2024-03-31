@@ -1,0 +1,5 @@
+{"pairing": "XMR/USD", "quantity": 0.61769, "side_value": 3, "entry_price": 127.515, "exit_price": 0, "minimum_margin": 1.04, "reentry_price": 0, "side_modifier": 1.2, "in_position": true}
+{"pairing": "LDO/USD", "quantity": 291.2532, "side_value": 3, "entry_price": 2.817, "exit_price": 0, "minimum_margin": 1.04, "reentry_price": 0, "side_modifier": 1.2, "in_position": true}
+{"pairing": "INJ/USD", "quantity": 2.20267, "side_value": 3, "entry_price": 36.8445, "exit_price": 0, "minimum_margin": 1.04, "reentry_price": 0, "side_modifier": 1.2, "in_position": true}
+{"pairing": "ETH/USD", "quantity": 0.02279, "side_value": 3, "entry_price": 3524.605, "exit_price": 0, "minimum_margin": 1.04, "reentry_price": 0, "side_modifier": 1.2, "in_position": true}
+{"pairing": "IMX/USD", "quantity": 263.43308, "side_value": 3, "entry_price": 3.0465, "exit_price": 0, "minimum_margin": 1.04, "reentry_price": 0, "side_modifier": 1.2, "in_position": true}
