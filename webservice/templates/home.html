@@ -2,7 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title >Home page</title>
+    <title >Password generator</title>
+</head>
+<head>
+<style>
+    body {
+      background-color: #484848;
+    }
+    <meta charset="UTF-8">
+    <title >Password generator</title>
+</style>
 </head>
 <body>
         <form class="grid" action="/decrease_limit" method="GET">
@@ -10,6 +19,15 @@
         </form>
         <form class="grid" action="/raise_limit" method="GET">
              <input type="submit" value="Increase Limit">
+        </form>
+        <form class="grid" action="/raise_size" method="GET">
+             <input type="submit" value="Increase Size by 10%">
+        </form>
+        <form class="grid" action="/save_trades" method="GET">
+             <input type="submit" value="Saving trades">
+        </form>
+        <form class="grid" action="/load_trades" method="GET">
+             <input type="submit" value="Loading trades">
         </form>
         <form class="grid" action="/show" method="GET">
              <input type="submit" value="Show">
