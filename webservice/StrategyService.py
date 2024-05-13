@@ -14,7 +14,7 @@ import _thread
 import websocket
 
 strategy_classes = set()
-strategy_limit = 11
+strategy_limit = 15
 app = Flask(__name__)
 config = {}
 ticker = ''
@@ -37,7 +37,7 @@ class Strategy:
         self.api_private_key = api_private_key
         self.entry_price = 0
         self.exit_price = 0
-        self.minimum_margin = 1.04
+        self.minimum_margin = 1.08
         self.reentry_price = 0
         self.side_modifier = 1.2
 
@@ -57,7 +57,7 @@ class Strategy:
                 self.side_value += 3
                 self.side_modifier += .2
         if self.last_mark < self.entry_price * (2 - self.minimum_margin):
-            self.minimum_margin += .04
+            self.minimum_margin += .02
         if self.old_mark == 0:
             self.old_mark = self.last_mark
         elif self.last_mark > self.old_mark:
@@ -138,15 +138,15 @@ class Strategy:
                     }, self.api_public_key, self.api_private_key)
                     print(str(st) + ' selling ' + self.pairing + " @ " + str(self.last_mark) + " quantity " + str(self.quantity))
                     print(resp)
-                    if self.exit_price > (self.entry_price * 1.08):
+                    if self.exit_price > (self.entry_price * 1.14):
                         print('profit')
                         self.reentry_price = (self.entry_price + self.exit_price + (self.exit_price * (self.side_value / 100))) / 2
                         self.side_value = 1
-                        self.minimum_margin = 1.04
-                        if self.exit_price > (self.entry_price * 1.12):
+                        self.minimum_margin = 1.1
+                        if self.exit_price > (self.entry_price * 1.18):
                             self.quantity = round(self.quantity * 1.01, 5)
                             print('quantity moded')
-                    elif self.exit_price >= (self.entry_price * 1.04):
+                    elif self.exit_price >= (self.entry_price * 1.1):
                         print('less profit')
                         strategy_classes.remove(self)
 
@@ -223,13 +223,13 @@ def load_trades():
         for strings in list_str:
             try:
                 json_dict = json.loads(strings)
-                new_strategy = Strategy(json_dict['pairing'], json_dict['quantity'], api_public_key, api_private_key)
+                new_strategy = Strategy(json_dict['pairing'], round(json_dict['quantity'], 5), api_public_key, api_private_key)
                 new_strategy.side_value = json_dict['side_value']
                 new_strategy.entry_price = json_dict['entry_price']
                 new_strategy.exit_price = json_dict['exit_price']
                 new_strategy.side_modifier = json_dict['side_modifier']
                 new_strategy.reentry_price = json_dict['reentry_price']
-                new_strategy.minimum_margin = json_dict['minimum_margin']
+                new_strategy.minimum_margin = round(json_dict['minimum_margin'], 2)
                 if json_dict['in_position']:
                     new_strategy.in_position = True
                 if not json_dict['in_position']:
@@ -341,7 +341,7 @@ def buy():
             counter += 1
             break  # if pairing already in strategy set, break loop and increment counter(no duplicate pairing)
     if counter == 0 and strategy_counter < strategy_limit:
-        new_strategy = Strategy(ticker, (value * quantity_mod), api_public_key, api_private_key)
+        new_strategy = Strategy(ticker, (float(value) * quantity_mod), api_public_key, api_private_key)
         strategy_classes.add(new_strategy)
         for objects in strategy_classes:
             print(objects.pairing + ' Position = ' + str(objects.in_position))
