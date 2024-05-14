@@ -143,10 +143,10 @@ class Strategy:
                         self.reentry_price = (self.entry_price + self.exit_price + (self.exit_price * (self.side_value / 100))) / 2
                         self.side_value = 1
                         self.minimum_margin = 1.1
-                        if self.exit_price > (self.entry_price * 1.18):
+                        if self.exit_price > (self.entry_price * 1.20):
                             self.quantity = round(self.quantity * 1.01, 5)
                             print('quantity moded')
-                    elif self.exit_price >= (self.entry_price * 1.1):
+                    elif self.exit_price >= (self.entry_price * 1.08):
                         print('less profit')
                         strategy_classes.remove(self)
 
