@@ -1,36 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title >Password generator</title>
+        <meta charset="UTF-8">
+        <title >Password generator</title>
 </head>
 <head>
 <style>
-    body {
-      background-color: #484848;
-    }
-    <meta charset="UTF-8">
-    <title >Password generator</title>
+        #snackbar {
+          visibility: hidden; /* Hidden by default. Visible on click */
+          min-width: 250px; /* Set a default minimum width */
+          margin-left: -125px; /* Divide value of min-width by 2 */
+          background-color: #333; /* Black background color */
+          color: #fff; /* White text color */
+          text-align: center; /* Centered text */
+          border-radius: 2px; /* Rounded borders */
+          padding: 16px; /* Padding */
+          position: fixed; /* Sit on top of the screen */
+          z-index: 1; /* Add a z-index if needed */
+          left: 50%; /* Center the snackbar */
+          bottom: 30px; /* 30px from the bottom */
+        }
+
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar.show {
+          visibility: visible; /* Show the snackbar */
+          /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+          However, delay the fade out process for 2.5 seconds */
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        #snackbar2 {
+          visibility: hidden; /* Hidden by default. Visible on click */
+          min-width: 250px; /* Set a default minimum width */
+          margin-left: -125px; /* Divide value of min-width by 2 */
+          background-color: #333; /* Black background color */
+          color: #fff; /* White text color */
+          text-align: center; /* Centered text */
+          border-radius: 2px; /* Rounded borders */
+          padding: 16px; /* Padding */
+          position: fixed; /* Sit on top of the screen */
+          z-index: 1; /* Add a z-index if needed */
+          left: 50%; /* Center the snackbar */
+          bottom: 30px; /* 30px from the bottom */
+        }
+
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar2.show {
+          visibility: visible; /* Show the snackbar */
+          /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+          However, delay the fade out process for 2.5 seconds */
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        #snackbar3 {
+          visibility: hidden; /* Hidden by default. Visible on click */
+          min-width: 250px; /* Set a default minimum width */
+          margin-left: -125px; /* Divide value of min-width by 2 */
+          background-color: #333; /* Black background color */
+          color: #fff; /* White text color */
+          text-align: center; /* Centered text */
+          border-radius: 2px; /* Rounded borders */
+          padding: 16px; /* Padding */
+          position: fixed; /* Sit on top of the screen */
+          z-index: 1; /* Add a z-index if needed */
+          left: 50%; /* Center the snackbar */
+          bottom: 30px; /* 30px from the bottom */
+        }
+
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar3.show {
+          visibility: visible; /* Show the snackbar */
+          /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+          However, delay the fade out process for 2.5 seconds */
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        #snackbar4 {
+          visibility: hidden; /* Hidden by default. Visible on click */
+          min-width: 250px; /* Set a default minimum width */
+          margin-left: -125px; /* Divide value of min-width by 2 */
+          background-color: #333; /* Black background color */
+          color: #fff; /* White text color */
+          text-align: center; /* Centered text */
+          border-radius: 2px; /* Rounded borders */
+          padding: 16px; /* Padding */
+          position: fixed; /* Sit on top of the screen */
+          z-index: 1; /* Add a z-index if needed */
+          left: 50%; /* Center the snackbar */
+          bottom: 30px; /* 30px from the bottom */
+        }
+
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar4.show {
+          visibility: visible; /* Show the snackbar */
+          /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+          However, delay the fade out process for 2.5 seconds */
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        #snackbar5 {
+          visibility: hidden; /* Hidden by default. Visible on click */
+          min-width: 250px; /* Set a default minimum width */
+          margin-left: -125px; /* Divide value of min-width by 2 */
+          background-color: #333; /* Black background color */
+          color: #fff; /* White text color */
+          text-align: center; /* Centered text */
+          border-radius: 2px; /* Rounded borders */
+          padding: 16px; /* Padding */
+          position: fixed; /* Sit on top of the screen */
+          z-index: 1; /* Add a z-index if needed */
+          left: 50%; /* Center the snackbar */
+          bottom: 30px; /* 30px from the bottom */
+        }
+
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar5.show {
+          visibility: visible; /* Show the snackbar */
+          /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+          However, delay the fade out process for 2.5 seconds */
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        #snackbar6 {
+          visibility: hidden; /* Hidden by default. Visible on click */
+          min-width: 250px; /* Set a default minimum width */
+          margin-left: -125px; /* Divide value of min-width by 2 */
+          background-color: #333; /* Black background color */
+          color: #fff; /* White text color */
+          text-align: center; /* Centered text */
+          border-radius: 2px; /* Rounded borders */
+          padding: 16px; /* Padding */
+          position: fixed; /* Sit on top of the screen */
+          z-index: 1; /* Add a z-index if needed */
+          left: 50%; /* Center the snackbar */
+          bottom: 30px; /* 30px from the bottom */
+        }
+
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar6.show {
+          visibility: visible; /* Show the snackbar */
+          /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+          However, delay the fade out process for 2.5 seconds */
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        #snackbar7 {
+          visibility: hidden; /* Hidden by default. Visible on click */
+          min-width: 250px; /* Set a default minimum width */
+          margin-left: -125px; /* Divide value of min-width by 2 */
+          background-color: #333; /* Black background color */
+          color: #fff; /* White text color */
+          text-align: center; /* Centered text */
+          border-radius: 2px; /* Rounded borders */
+          padding: 16px; /* Padding */
+          position: fixed; /* Sit on top of the screen */
+          z-index: 1; /* Add a z-index if needed */
+          left: 50%; /* Center the snackbar */
+          bottom: 30px; /* 30px from the bottom */
+        }
+
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar7.show {
+          visibility: visible; /* Show the snackbar */
+          /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+          However, delay the fade out process for 2.5 seconds */
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        /* Animations to fade the snackbar in and out */
+        @-webkit-keyframes fadein {
+          from {bottom: 0; opacity: 0;}
+          to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadein {
+          from {bottom: 0; opacity: 0;}
+          to {bottom: 30px; opacity: 1;}
+        }
+
+        @-webkit-keyframes fadeout {
+          from {bottom: 30px; opacity: 1;}
+          to {bottom: 0; opacity: 0;}
+        }
+
+        @keyframes fadeout {
+          from {bottom: 30px; opacity: 1;}
+          to {bottom: 0; opacity: 0;}
+        }
+        body {
+          background-color: #484848;
+        }
+        <meta charset="UTF-8">
+        <title >Password generator</title>
 </style>
 </head>
 <body>
-        <form class="grid" action="/decrease_limit" method="GET">
-             <input type="submit" value="Decrease Limit">
+        <form class="grid" action="/show" method="POST">
+            <button onclick="myFunction()" >Show trade setup</button>
+            <div id="snackbar">All trade setup are shown in terminal</div>
         </form>
-        <form class="grid" action="/raise_limit" method="GET">
-             <input type="submit" value="Increase Limit">
+        <form class="grid" action="/decrease_limit" method="POST">
+            <button onclick="myFunction2()" >Decrease Limit</button>
+            <div id="snackbar2">Limit decreased</div>
         </form>
-        <form class="grid" action="/raise_size" method="GET">
-             <input type="submit" value="Increase Size by 10%">
+        <form class="grid" action="/raise_limit" method="POST">
+            <button onclick="myFunction3()" >Increase Limit</button>
+            <div id="snackbar3">Limit increased</div>
         </form>
-        <form class="grid" action="/save_trades" method="GET">
-             <input type="submit" value="Saving trades">
+        <form class="grid" action="/raise_size" method="POST">
+            <button onclick="myFunction4()" >Increase Size</button>
+            <div id="snackbar4">Size increased</div>
         </form>
-        <form class="grid" action="/load_trades" method="GET">
-             <input type="submit" value="Loading trades">
+        <form class="grid" action="/decrease_size" method="POST">
+            <button onclick="myFunction7()" >Decrease Size</button>
+            <div id="snackbar7">Size decreased</div>
         </form>
-        <form class="grid" action="/show" method="GET">
-             <input type="submit" value="Show">
+        <form class="grid" action="/save_trades" method="POST">
+            <button onclick="myFunction5()" >Saving trades</button>
+            <div id="snackbar5">Trades saved</div>
         </form>
+        <form class="grid" action="/load_trades" method="POST">
+            <button onclick="myFunction6()" >Loading trades</button>
+            <div id="snackbar6">Trades loaded</div>
+        </form>
+
+        <script>
+            function myFunction() {
+              var x = document.getElementById("snackbar");
+              x.className = "show";
+              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            }
+            function myFunction2() {
+              var x = document.getElementById("snackbar2");
+              x.className = "show";
+              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            }
+            function myFunction3() {
+              var x = document.getElementById("snackbar3");
+              x.className = "show";
+              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            }
+            function myFunction4() {
+              var x = document.getElementById("snackbar4");
+              x.className = "show";
+              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            }
+            function myFunction5() {
+              var x = document.getElementById("snackbar5");
+              x.className = "show";
+              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            }
+            function myFunction6() {
+              var x = document.getElementById("snackbar6");
+              x.className = "show";
+              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            }
+            function myFunction7() {
+              var x = document.getElementById("snackbar7");
+              x.className = "show";
+              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            }
+        </script>
+
 </body>
 </html>
