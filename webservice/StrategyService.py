@@ -179,28 +179,36 @@ def kraken_request(uri_path, data, api_key, api_sec):
     return req
 
 
-@app.route("/raise_size")
+@app.route("/raise_size", methods=['POST'])
 def raise_size():
     global quantity_mod
     quantity_mod += .1
     print(quantity_mod)
-    return '''<h1>Size increased by 10%</h1>'''
+    return '', 204
 
 
-@app.route("/raise_limit")
+@app.route("/decrease_size", methods=['POST'])
+def decrease_size():
+    global quantity_mod
+    quantity_mod -= .1
+    print(quantity_mod)
+    return '', 204
+
+
+@app.route("/raise_limit", methods=['POST'])
 def raise_limit():
     global strategy_limit
     strategy_limit += 1
     print(strategy_limit)
-    return '''<h1>Strategy limit increased </h1>'''
+    return '', 204
 
 
-@app.route("/decrease_limit")
+@app.route("/decrease_limit", methods=['POST'])
 def decrease_limit():
     global strategy_limit
     strategy_limit -= 1
     print(strategy_limit)
-    return '''<h1>Strategy limit decreased </h1>'''
+    return '', 204
 
 
 @app.route("/load")
@@ -211,7 +219,7 @@ def load():
     return render_template("index1.html")
 
 
-@app.route("/load_trades")
+@app.route("/load_trades", methods=['POST'])
 def load_trades():
     global config
     api_public_key = config['api_public_key']
@@ -237,10 +245,10 @@ def load_trades():
                 strategy_classes.add(new_strategy)
             except ValueError:
                 print(ValueError)
-    return '''<h1>Trades loaded</h1>'''
+    return '', 204
 
 
-@app.route("/save_trades")
+@app.route("/save_trades", methods=['POST'])
 def save_trades():
     new_string = ""
     x = 0
@@ -298,18 +306,17 @@ def save_trades():
     with open('trades.txt', 'w') as f:
         f.write(new_string)
         f.close()
-    return '''<h1>Trades saved</h1>'''
+    return '', 204
 
 
-@app.route("/show")
+@app.route("/show", methods=['POST'])
 def show():
     for objects in strategy_classes:
         print(objects.pairing + ' Position = ' + str(objects.in_position) + " entry: " + str(objects.entry_price) +
               " trailing percentage: " + str(objects.side_value) + " minimum margin: " + str(objects.minimum_margin) +
               " current price: " + str(objects.last_mark) + " side: " + str(objects.side) + " reentry price: " +
               str(objects.reentry_price) + " quantity: " + str(objects.quantity))
-    return '''<h1>All pairs shown in terminal </h1>'''
-
+    return '', 204
 
 @app.route("/remove")
 def remove():
